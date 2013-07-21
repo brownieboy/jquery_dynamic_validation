@@ -71,58 +71,65 @@
 	});
 
 	var rulesConfigObj = {
-		oneOfTwo : {
-			field1 : {
-				require_from_group2 : [1, "#field1, #field2, #field3"],
-				messages : {
-					require_from_group2 : "One out of three fields required"
-				}
-			},
-			field2 : {
-				require_from_group2 : [1, "#field1, #field2, #field3"],
-				messages : {
-					require_from_group2 : "One out of three fields required"
-				}
-			},
-			field3 : {
-				require_from_group2 : [1, "#field1, #field2, #field3"],
-				messages : {
-					require_from_group2 : "One out of three fields required"
-				}
+		defaults :{
+			oneOfTwo: {
+				message: "One out of three fields required"
 			}
 		},
-		twoOfThree : {
-			field1 : {
-				require_from_group2 : [2, "#field1, #field2, #field3"],
-				messages : {
-					require_from_group2 : "Two out of three fields required"
+		ruleGroups: {
+			oneOfTwo : {
+				field1 : {
+					require_from_group2 : [1, "#field1, #field2, #field3"],
+					messages : {
+						require_from_group2 : "One out of three fields required"
+					}
+				},
+				field2 : {
+					require_from_group2 : [1, "#field1, #field2, #field3"],
+					messages : {
+						require_from_group2 : "One out of three fields required"
+					}
+				},
+				field3 : {
+					require_from_group2 : [1, "#field1, #field2, #field3"],
+					messages : {
+						require_from_group2 : "One out of three fields required"
+					}
 				}
 			},
-			field2 : {
-				require_from_group2 : [2, "#field1, #field2, #field3"],
-				messages : {
-					require_from_group2 : "Two out of three fields required"
-				}
-			},
-			field3 : {
-				require_from_group2 : [2, "#field1, #field2, #field3"],
-				messages : {
-					require_from_group2 : "Two out of three fields required"
+			twoOfThree : {
+				field1 : {
+					require_from_group2 : [2, "#field1, #field2, #field3"],
+					messages : {
+						require_from_group2 : "Two out of three fields required"
+					}
+				},
+				field2 : {
+					require_from_group2 : [2, "#field1, #field2, #field3"],
+					messages : {
+						require_from_group2 : "Two out of three fields required"
+					}
+				},
+				field3 : {
+					require_from_group2 : [2, "#field1, #field2, #field3"],
+					messages : {
+						require_from_group2 : "Two out of three fields required"
+					}
 				}
 			}
 		}
 	}
 
-	addRules(rulesConfigObj.oneOfTwo);
+	addRules(rulesConfigObj.ruleGroups.oneOfTwo);
 
 	$("input[name=switchVal]").change(function() {
 		var newVal = $(this).val();
 		removeRulesGroup(rulesConfigObj);
 		if (newVal === "1") {
-			addRules(rulesConfigObj.oneOfTwo);
+			addRules(rulesConfigObj.ruleGroups.oneOfTwo);
 		} else {
-			addRules(rulesConfigObj.twoOfThree);
+			addRules(rulesConfigObj.ruleGroups.twoOfThree);
 		}
 
 	});
-})(jQuery); 
+})(jQuery);
