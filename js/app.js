@@ -70,66 +70,148 @@
 	$(vForm).validate({
 	});
 
+	/*
+	 var rulesConfigObj = {
+	 defaults : {
+	 oneOfThree : {
+	 message : "One out of three fields required, default"
+	 }
+	 },
+	 ruleGroups : {
+	 oneOfThree: {
+	 field1 : {
+	 require_from_group2 : [1, "#field1, #field2, #field3"],
+	 messages : {
+	 require_from_group2 : "One out of three fields required 1"
+	 // require_from_group2 : function() {
+	 // console.log(rulesConfigObj);
+	 // return this.defaults.oneOfThree.message;
+	 // }
+	 }
+	 },
+	 field2 : {
+	 require_from_group2 : [1, "#field1, #field2, #field3"],
+	 messages : {
+	 require_from_group2 : "One out of three fields required 2"
+	 }
+	 },
+	 field3 : {
+	 require_from_group2 : [1, "#field1, #field2, #field3"],
+	 messages : {
+	 require_from_group2 : "One out of three fields required 3"
+	 }
+	 }
+	 },
+	 twoOfThree : {
+	 field1 : {
+	 require_from_group2 : [2, "#field1, #field2, #field3"],
+	 messages : {
+	 require_from_group2 : "Two out of three fields required"
+	 }
+	 },
+	 field2 : {
+	 require_from_group2 : [2, "#field1, #field2, #field3"],
+	 messages : {
+	 require_from_group2 : "Two out of three fields required"
+	 }
+	 },
+	 field3 : {
+	 require_from_group2 : [2, "#field1, #field2, #field3"],
+	 messages : {
+	 require_from_group2 : "Two out of three fields required"
+	 }
+	 }
+	 }
+	 }
+	 }
+	 */
+
 	var rulesConfigObj = {
-		defaults :{
-			oneOfTwo: {
-				message: "One out of three fields required"
+		defaults : {
+			oneOfThree : {
+				message : "One out of three fields required, default"
 			}
 		},
-		ruleGroups: {
-			oneOfTwo : {
+		ruleGroups : {
+			oneOfThree : {
 				field1 : {
-					require_from_group2 : [1, "#field1, #field2, #field3"],
-					messages : {
-						require_from_group2 : "One out of three fields required"
-					}
+					require_from_group2 : [1, "#field1, #field2, #field3"]
+					// messages : {
+					// require_from_group2 : "One out of three fields required 1"
+					// // require_from_group2 : function() {
+					// // console.log(rulesConfigObj);
+					// // return this.defaults.oneOfThree.message;
+					// // }
+					// }
 				},
 				field2 : {
-					require_from_group2 : [1, "#field1, #field2, #field3"],
-					messages : {
-						require_from_group2 : "One out of three fields required"
-					}
+					require_from_group2 : [1, "#field1, #field2, #field3"]
+					// messages : {
+					// require_from_group2 : "One out of three fields required 2"
+					// }
 				},
 				field3 : {
-					require_from_group2 : [1, "#field1, #field2, #field3"],
-					messages : {
-						require_from_group2 : "One out of three fields required"
-					}
+					require_from_group2 : [1, "#field1, #field2, #field3"]
+					// messages : {
+					// require_from_group2 : "One out of three fields required 3"
+					// }
 				}
 			},
 			twoOfThree : {
 				field1 : {
-					require_from_group2 : [2, "#field1, #field2, #field3"],
-					messages : {
-						require_from_group2 : "Two out of three fields required"
-					}
+					require_from_group2 : [2, "#field1, #field2, #field3"]
+					// messages : {
+					// require_from_group2 : "Two out of three fields required"
+					// }
 				},
 				field2 : {
-					require_from_group2 : [2, "#field1, #field2, #field3"],
-					messages : {
-						require_from_group2 : "Two out of three fields required"
-					}
+					require_from_group2 : [2, "#field1, #field2, #field3"]
+					// messages : {
+					// require_from_group2 : "Two out of three fields required"
+					// }
 				},
 				field3 : {
-					require_from_group2 : [2, "#field1, #field2, #field3"],
-					messages : {
-						require_from_group2 : "Two out of three fields required"
-					}
+					require_from_group2 : [2, "#field1, #field2, #field3"]
+					// messages : {
+					// require_from_group2 : "Two out of three fields required"
+					// }
 				}
 			}
 		}
 	}
 
-	addRules(rulesConfigObj.ruleGroups.oneOfTwo);
+	addRules(rulesConfigObj.ruleGroups.oneOfThree);
+	$.extend($.validator.messages, {
+		require_from_group2 : "Select x from y fields"
+	});
 
 	$("input[name=switchVal]").change(function() {
+		var rule1, rule2, rule3, formRule;
 		var newVal = $(this).val();
-		removeRulesGroup(rulesConfigObj);
+		removeRulesGroup(rulesConfigObj.ruleGroups);
 		if (newVal === "1") {
-			addRules(rulesConfigObj.ruleGroups.oneOfTwo);
+			//			addRules(rulesConfigObj.ruleGroups.oneOfThree);
+			//		var objRule = $("#field1").rules();
+			//			objRule.messages.require_from_group2 = "New message";
 		} else {
-			addRules(rulesConfigObj.ruleGroups.twoOfThree);
+			//			addRules(rulesConfigObj.ruleGroups.twoOfThree);
+			rule1 = $("#field1").rules();
+			rule2 = $("#field2").rules();
+			rule3 = $("#field3").rules();
+			$("#field1, #field2, #field3").rules("remove", "require_from_group2");
+			$("#field1, #field2, #field3").rules("add", {
+				require_from_group2 : [1, "#field1, #field2, #field3"],
+				messages : {
+					require_from_group2 : "Custom required_from_group2"
+				}
+			});
+			//			var objRule = $("#field1").rules();
+			//		objRule.messages.require_from_group2 = "New message";
 		}
-
+		
+		rule1 = $("#field1").rules();
+		rule2 = $("#field2").rules();
+		rule3 = $("#field3").rules();
+		console.log("done ");
 	});
 })(jQuery);
